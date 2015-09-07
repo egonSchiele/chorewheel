@@ -1,11 +1,5 @@
-if RUBY_VERSION >= "2"
-  task :default => [:spec, :rubocop]
+task :default => [:spec]
 
-  require "rubocop/rake_task"
-  RuboCop::RakeTask.new
-else
-  task :default => [:spec]
-end
-
+# you can do `rake rubocop` as well
 require "rspec/core/rake_task"
 RSpec::Core::RakeTask.new(:spec)
