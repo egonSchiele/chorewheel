@@ -1,3 +1,2 @@
 - add support for month / specific days combo
-- random assignment, not same person/same day
 - extra chore i.e. person X needs to make up an extra day of chores
