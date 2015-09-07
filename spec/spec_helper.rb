@@ -1,4 +1,4 @@
-require "chorewheel"
+require "timespan"
 require File.expand_path(File.join(__FILE__, "../support"))
 require File.expand_path(File.join(__FILE__, "../fixtures/fixtures"))
 

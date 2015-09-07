@@ -8,13 +8,12 @@ class ChoreWheel
   }
 
   Contract ArrayOf[String], Opts
-  def initialize names, opts={}
+  def initialize names, opts = {}
     @people = names.map do |name|
       Person.new name
     end
   end
 
   def schedule
-
   end
 end

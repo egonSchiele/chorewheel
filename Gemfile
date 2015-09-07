@@ -2,7 +2,7 @@ source "http://rubygems.org"
 
 gemspec
 
-gem 'contracts', '~> 0.11.0'
+gem "contracts", "~> 0.11.0"
 
 group :test do
   gem "rspec"
