@@ -10,7 +10,7 @@ include Contracts
 
 class ChoreSchedule
   attr_accessor :people
-  def initialize people
+  def initialize people, opts = {}
     @people = people
   end
 

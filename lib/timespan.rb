@@ -67,6 +67,15 @@ class Timespan
     make_hash days
   end
 
+  Contract Timespan::WEEK, Interval::SPECIFIC_DAYS => Hash
+  def make_chunks timespan, interval
+    hash = {}
+    interval.days.each do |day|
+      hash[day] = nil
+    end
+    hash
+  end
+
   Contract Any, Any => Any
   def make_chunks timespan, interval
     fail "don't know how to make timespan with timespan type #{timespan} and interval type #{interval}"

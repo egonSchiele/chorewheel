@@ -11,6 +11,11 @@ RSpec.describe "Timespan" do
       t = Timespan.new(Timespan::WEEK, Interval::WEEKDAY)
       expect(t.chunks).to eq(make_hash weekdays)
     end
+
+    it "should make chunks for week/specific_days" do
+      t = Timespan.new(Timespan::WEEK, Interval::SPECIFIC_DAYS.new([:tuesday, :thursday, :friday]))
+      expect(t.chunks).to eq({:tuesday => nil, :thursday => nil, :friday => nil})
+    end
   end
 
   describe "interface" do

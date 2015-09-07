@@ -5,9 +5,12 @@ RSpec.describe "ChoreSchedule" do
       [:adit, :maggie]
     ]
 
+    specific_days = Interval::SPECIFIC_DAYS.new([:tuesday, :thursday, :friday])
+
     create_args = [
       [Timespan::WEEK, Interval::DAY],
-      [Timespan::WEEK, Interval::WEEKDAY]
+      [Timespan::WEEK, Interval::WEEKDAY],
+      [Timespan::WEEK, specific_days]
     ]
 
     expected_timespan = {
@@ -24,12 +27,19 @@ RSpec.describe "ChoreSchedule" do
       [:friday, :adit],
       [:saturday, :adit]
     ]
+
     expected_timespan[[:adit]][[Timespan::WEEK, Interval::WEEKDAY]] = [
       [:monday, :adit],
       [:tuesday, :adit],
       [:wednesday, :adit],
       [:thursday, :adit],
-      [:friday, :adit],
+      [:friday, :adit]
+    ]
+
+    expected_timespan[[:adit]][[Timespan::WEEK, specific_days]] = [
+      [:tuesday, :adit],
+      [:thursday, :adit],
+      [:friday, :adit]
     ]
 
     expected_timespan[[:adit, :maggie]][[Timespan::WEEK, Interval::DAY]] = [
@@ -41,6 +51,7 @@ RSpec.describe "ChoreSchedule" do
       [:friday, :maggie],
       [:saturday, :adit]
     ]
+
     expected_timespan[[:adit, :maggie]][[Timespan::WEEK, Interval::WEEKDAY]] = [
       [:monday, :adit],
       [:tuesday, :maggie],
@@ -48,6 +59,13 @@ RSpec.describe "ChoreSchedule" do
       [:thursday, :maggie],
       [:friday, :adit],
     ]
+
+    expected_timespan[[:adit, :maggie]][[Timespan::WEEK, specific_days]] = [
+      [:tuesday, :adit],
+      [:thursday, :maggie],
+      [:friday, :adit]
+    ]
+
     people.each do |persons|
       create_args.each do |args|
         it "should create timespan for #{args} and #{persons}" do
