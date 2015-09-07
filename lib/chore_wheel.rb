@@ -9,7 +9,7 @@ require "interval"
 include Contracts
 
 class ChoreWheel
-  attr_accessor :workers_per_shift
+  attr_accessor :workers_per_shift, :people
   def initialize people, timespan, interval, opts = {}
     unless people.is_a?(Array)
       people = [people]

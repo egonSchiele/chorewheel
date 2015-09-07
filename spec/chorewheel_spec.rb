@@ -1,4 +1,7 @@
 RSpec.describe "ChoreWheel" do
+
+
+
   describe "chunks" do
     it "should make chunks for week/day" do
       t = ChoreWheel.new(:adit, Timespan::WEEK, Interval::DAY)
@@ -60,21 +63,7 @@ RSpec.describe "ChoreWheel" do
           cw = ChoreWheel.new(persons, *args)
           expect(cw.shifts).to eq(expected_shifts[args])
 
-          # get the number of shifts for each person
-          shifts = persons.map do |name|
-            cw.count do |day, persons|
-              persons.include?(name)
-            end
-          end
-
-          # each person should have not more than 1 away from the avg number of shifts
-          avg = shifts.inject(:+) / shifts.size.to_f
-
-          persons.zip(shifts).each do |name, shift|
-            if (shift - avg).abs > 1
-              raise "Person #{name} is doing #{shift} shifts, but the average is #{avg}."
-            end
-          end
+          check_even_distribution(cw)
         end
       end
     end
@@ -85,6 +74,13 @@ RSpec.describe "ChoreWheel" do
       @cw = ChoreWheel.new([:adit, :maggie], Timespan::WEEK, Interval::WEEKDAY, {"workers_per_shift": 2})
     end
     it "should assign 2 workers per shift" do
+      @cw.workers.each do |arr|
+        expect(arr.size).to eq(2)
+      end
+    end
+
+    it "should assign the shifts evenly" do
+      check_even_distribution(@cw)
     end
   end
 end

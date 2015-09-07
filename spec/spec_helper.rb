@@ -102,3 +102,21 @@ RSpec.configure do |config|
     ::Contract.restore_failure_callback
   end
 end
+
+def check_even_distribution cw
+  # get the number of shifts for each person
+  shifts = cw.people.map do |name|
+    cw.count do |shift, workers|
+      workers.include?(name)
+    end
+  end
+
+  # each person should have not more than 1 away from the avg number of shifts
+  avg = shifts.inject(:+) / shifts.size.to_f
+
+  cw.people.zip(shifts).each do |name, shift|
+    if (shift - avg).abs > 1
+      raise "Person #{name} is doing #{shift} shifts, but the average is #{avg}."
+    end
+  end
+end
