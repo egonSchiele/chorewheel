@@ -55,6 +55,15 @@ class ChoreWheel
     self
   end
 
+  def count &blk
+    counter = 0
+    chunks.each do |key, val|
+      result = blk.call key, val
+      counter += 1 if result
+    end
+    counter
+  end
+
   Contract Timespan::WEEK, Interval::WEEKDAY => Hash
   def make_chunks timespan, interval
     make_hash weekdays

@@ -59,6 +59,22 @@ RSpec.describe "ChoreWheel" do
           cw = ChoreWheel.new(persons, *args)
           cw.create
           expect(cw.keys).to eq(expected_keys[args])
+
+          # get the number of shifts for each person
+          shifts = persons.map do |name|
+            cw.count do |day, person|
+              person == name
+            end
+          end
+
+          # each person should have not more than 1 away from the avg number of shifts
+          avg = shifts.inject(:+) / shifts.size.to_f
+
+          persons.zip(shifts).each do |name, shift|
+            if (shift - avg).abs > 1
+              raise "Person #{name} is doing #{shift} shifts, but the average is #{avg}."
+            end
+          end
         end
       end
     end
