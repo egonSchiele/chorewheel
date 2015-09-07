@@ -1,6 +1,6 @@
 require_relative "../lib/util"
 
-RSpec.describe "Timespan" do
+RSpec.describe "Schedule" do
   describe "chunks" do
     it "should make chunks for week/day" do
       t = Timespan.new(Timespan::WEEK, Interval::DAY)

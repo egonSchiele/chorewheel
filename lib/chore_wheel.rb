@@ -8,21 +8,21 @@ require "timespan"
 require "interval"
 include Contracts
 
-class ChoreSchedule
+class ChoreWheel
   attr_accessor :people
   def initialize people, opts = {}
     @people = people
   end
 
   def create timespan, interval
-    timespan = Timespan.new(timespan, interval)
+    schedule = Schedule.new(timespan, interval)
     i = 0
-    timespan.set_each do
+    schedule.set_each do
       i = 0 if i >= people.size
       result = people[i]
       i += 1
       result
     end
-    timespan
+    schedule
   end
 end
