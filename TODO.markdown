@@ -1,2 +1,1 @@
-- add support for month / specific days combo
 - extra chore i.e. person X needs to make up an extra day of chores
