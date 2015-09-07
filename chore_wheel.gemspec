@@ -1,4 +1,4 @@
-require File.expand_path(File.join(__FILE__, "../lib/chorewheel/version"))
+require File.expand_path(File.join(__FILE__, "../lib/chore_wheel/version"))
 
 Gem::Specification.new do |s|
   s.name        = "chore_wheel"
