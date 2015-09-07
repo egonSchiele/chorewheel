@@ -9,10 +9,16 @@ require "interval"
 include Contracts
 
 class ChoreWheel
-  def initialize people, timespan, interval
+  attr_accessor :workers_per_shift
+  def initialize people, timespan, interval, opts = {}
+    unless people.is_a?(Array)
+      people = [people]
+    end
     @people = people
     @timespan = timespan
     @interval = interval
+    @workers_per_shift = opts[:workers_per_shift] || 1
+    create
   end
 
   Contract Hash
@@ -29,11 +35,11 @@ class ChoreWheel
     arr
   end
 
-  def keys
+  def shifts
     chunks.keys
   end
 
-  def values
+  def workers
     chunks.values
   end
 
@@ -91,10 +97,13 @@ class ChoreWheel
   def create
     i = 0
     set_each do
-      i = 0 if i >= @people.size
-      result = @people[i]
-      i += 1
-      result
+      workers = []
+      workers_per_shift.times do
+        i = 0 if i >= @people.size
+        workers << @people[i]
+        i += 1
+      end
+      workers
     end
     self
   end

@@ -2,17 +2,17 @@ RSpec.describe "ChoreWheel" do
   describe "chunks" do
     it "should make chunks for week/day" do
       t = ChoreWheel.new(:adit, Timespan::WEEK, Interval::DAY)
-      expect(t.chunks).to eq(make_hash days)
+      expect(t.shifts).to eq(days)
     end
 
     it "should make chunks for week/weekday" do
       t = ChoreWheel.new(:adit, Timespan::WEEK, Interval::WEEKDAY)
-      expect(t.chunks).to eq(make_hash weekdays)
+      expect(t.shifts).to eq(weekdays)
     end
 
     it "should make chunks for week/specific_days" do
       t = ChoreWheel.new(:adit, Timespan::WEEK, Interval::SPECIFIC_DAYS.new([:tuesday, :thursday, :friday]))
-      expect(t.chunks).to eq({:tuesday => nil, :thursday => nil, :friday => nil})
+      expect(t.shifts).to eq([:tuesday, :thursday, :friday])
     end
   end
 
@@ -22,17 +22,18 @@ RSpec.describe "ChoreWheel" do
     end
 
     it "to_a" do
-      expect(@t.to_a).to eq([[:monday, nil], [:tuesday, nil], [:wednesday, nil], [:thursday, nil], [:friday, nil]])
+      expect(@t.to_a).to eq([[:monday, [:adit]], [:tuesday, [:adit]], [:wednesday, [:adit]], [:thursday, [:adit]], [:friday, [:adit]]])
     end
 
-    it "keys" do
-      expect(@t.keys).to eq(weekdays)
+    it "shifts" do
+      expect(@t.shifts).to eq(weekdays)
     end
 
-    it "values" do
-      expect(@t.values).to eq([nil, nil, nil, nil, nil])
+    it "workers" do
+      expect(@t.workers).to eq([[:adit], [:adit], [:adit], [:adit], [:adit]])
     end
   end
+
   describe "create" do
     people = [
       [:adit],
@@ -47,7 +48,7 @@ RSpec.describe "ChoreWheel" do
       [Timespan::WEEK, specific_days]
     ]
 
-    expected_keys = {
+    expected_shifts = {
       [Timespan::WEEK, Interval::DAY] => [:sunday, :monday, :tuesday, :wednesday, :thursday, :friday, :saturday],
       [Timespan::WEEK, Interval::WEEKDAY] => [:monday, :tuesday, :wednesday, :thursday, :friday],
       [Timespan::WEEK, specific_days] => [:tuesday, :thursday, :friday]
@@ -57,13 +58,12 @@ RSpec.describe "ChoreWheel" do
       create_args.each do |args|
         it "should create timespan for #{args} and #{persons}" do
           cw = ChoreWheel.new(persons, *args)
-          cw.create
-          expect(cw.keys).to eq(expected_keys[args])
+          expect(cw.shifts).to eq(expected_shifts[args])
 
           # get the number of shifts for each person
           shifts = persons.map do |name|
-            cw.count do |day, person|
-              person == name
+            cw.count do |day, persons|
+              persons.include?(name)
             end
           end
 
@@ -77,6 +77,14 @@ RSpec.describe "ChoreWheel" do
           end
         end
       end
+    end
+  end
+
+  describe "workers_per_shift" do
+    before :each do
+      @cw = ChoreWheel.new([:adit, :maggie], Timespan::WEEK, Interval::WEEKDAY, {"workers_per_shift": 2})
+    end
+    it "should assign 2 workers per shift" do
     end
   end
 end
