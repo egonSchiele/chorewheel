@@ -1,9 +1,9 @@
 def weekdays
-  [:monday, :tuesday, :wednesday, :thursday, :friday]
+  ["monday", "tuesday", "wednesday", "thursday", "friday"]
 end
 
 def days
-  [:sunday] + weekdays + [:saturday]
+  ["sunday"] + weekdays + ["saturday"]
 end
 
 def make_hash keys

@@ -1,7 +1,4 @@
 RSpec.describe "ChoreWheel" do
-
-
-
   describe "chunks" do
     it "should make chunks for week/day" do
       t = ChoreWheel.new(:adit, Timespan::WEEK, Interval::DAY)
@@ -14,8 +11,18 @@ RSpec.describe "ChoreWheel" do
     end
 
     it "should make chunks for week/specific_days" do
-      t = ChoreWheel.new(:adit, Timespan::WEEK, Interval::SPECIFIC_DAYS.new([:tuesday, :thursday, :friday]))
-      expect(t.shifts).to eq([:tuesday, :thursday, :friday])
+      t = ChoreWheel.new(:adit, Timespan::WEEK, Interval::SPECIFIC_DAYS.new(["tuesday", "thursday", "friday"]))
+      expect(t.shifts).to eq(["tuesday", "thursday", "friday"])
+    end
+
+    describe "chunks for months" do
+      before :each do
+        @month = Timespan::MONTH.new(Date.parse("2015-09-01"))
+      end
+      it "should make chunks for month/days" do
+        t = ChoreWheel.new(:adit, @month, Interval::DAY)
+        expect(t.shifts).to eq(["2015-09-01", "2015-09-02", "2015-09-03", "2015-09-04", "2015-09-05", "2015-09-06", "2015-09-07", "2015-09-08", "2015-09-09", "2015-09-10", "2015-09-11", "2015-09-12", "2015-09-13", "2015-09-14", "2015-09-15", "2015-09-16", "2015-09-17", "2015-09-18", "2015-09-19", "2015-09-20", "2015-09-21", "2015-09-22", "2015-09-23", "2015-09-24", "2015-09-25", "2015-09-26", "2015-09-27", "2015-09-28", "2015-09-29", "2015-09-30"])
+      end
     end
   end
 
@@ -25,7 +32,7 @@ RSpec.describe "ChoreWheel" do
     end
 
     it "to_a" do
-      expect(@t.to_a).to eq([[:monday, [:adit]], [:tuesday, [:adit]], [:wednesday, [:adit]], [:thursday, [:adit]], [:friday, [:adit]]])
+      expect(@t.to_a).to eq([["monday", [:adit]], ["tuesday", [:adit]], ["wednesday", [:adit]], ["thursday", [:adit]], ["friday", [:adit]]])
     end
 
     it "shifts" do
@@ -43,7 +50,7 @@ RSpec.describe "ChoreWheel" do
       [:adit, :maggie]
     ]
 
-    specific_days = Interval::SPECIFIC_DAYS.new([:tuesday, :thursday, :friday])
+    specific_days = Interval::SPECIFIC_DAYS.new(["tuesday", "thursday", "friday"])
 
     create_args = [
       [Timespan::WEEK, Interval::DAY],
@@ -52,9 +59,9 @@ RSpec.describe "ChoreWheel" do
     ]
 
     expected_shifts = {
-      [Timespan::WEEK, Interval::DAY] => [:sunday, :monday, :tuesday, :wednesday, :thursday, :friday, :saturday],
-      [Timespan::WEEK, Interval::WEEKDAY] => [:monday, :tuesday, :wednesday, :thursday, :friday],
-      [Timespan::WEEK, specific_days] => [:tuesday, :thursday, :friday]
+      [Timespan::WEEK, Interval::DAY] => ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"],
+      [Timespan::WEEK, Interval::WEEKDAY] => ["monday", "tuesday", "wednesday", "thursday", "friday"],
+      [Timespan::WEEK, specific_days] => ["tuesday", "thursday", "friday"]
     }
 
     people.each do |persons|

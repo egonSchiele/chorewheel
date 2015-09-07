@@ -7,6 +7,14 @@ include Contracts
 
 class Timespan
   WEEK = :week
-  MONTH = :month
   YEAR = :year
+
+  class MONTH
+    attr_accessor :start_date
+
+    Contract Date => Any
+    def initialize start_date
+      @start_date = start_date
+    end
+  end
 end

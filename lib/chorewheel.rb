@@ -36,7 +36,7 @@ class ChoreWheel
     arr
   end
 
-  Contract ArrayOf[GenericString]
+  Contract ArrayOf[String]
   def shifts
     chunks.keys
   end
@@ -46,7 +46,7 @@ class ChoreWheel
     chunks.values
   end
 
-  Contract ArrayOf[[GenericString, ArrayOf[GenericString]]]
+  Contract ArrayOf[[String, ArrayOf[GenericString]]]
   def to_a
     chunks.to_a
   end
@@ -91,6 +91,33 @@ class ChoreWheel
       hash[day] = nil
     end
     hash
+  end
+
+  Contract Timespan::MONTH, Interval::DAY => Hash
+  def make_chunks timespan, interval
+    hash = {}
+    start = timespan.start_date
+    (start...start.next_month).each do |date|
+      hash[date.to_s] = nil
+    end
+    hash
+  end
+
+  Contract Timespan::MONTH, Interval::WEEKDAY => Hash
+  def make_chunks timespan, interval
+    hash = make_chunks(timespan, Interval::DAYS)
+    # delete sundays and saturdays
+    hash.delete_if do |key, _|
+      [0, 6].include?(Date.parse(key).wday)
+    end
+  end
+
+  Contract Timespan::MONTH, Interval::SPECIFIC_DAYS => Hash
+  def make_chunks timespan, interval
+    hash = make_chunks(timespan, Interval::DAYS)
+    hash.delete_if do |key, _|
+      !intervals.days.include?(Date.parse(key).strftime("%A").downcase.to_sym)
+    end
   end
 
   Contract Any, Any => Any
