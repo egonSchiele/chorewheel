@@ -43,8 +43,16 @@ class Timespan
 
   def each &blk
     chunks.values.each do |val|
-      blk.call[val]
+      blk.call(val)
     end
+    self
+  end
+
+  def set_each &blk
+    chunks.each do |key, val|
+      chunks[key] = blk.call key
+    end
+    self
   end
 
   private

@@ -13,3 +13,14 @@ def make_hash keys
   end
   hash
 end
+
+# infinitely keep yielding
+# elements of the array, starting
+# from the beginning when you are at the end
+def cycle arr
+  while true
+    arr.each do |elem|
+      yield elem
+    end
+  end
+end

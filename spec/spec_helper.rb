@@ -1,4 +1,6 @@
 require "timespan"
+require "interval"
+require "chore_schedule"
 require File.expand_path(File.join(__FILE__, "../support"))
 require File.expand_path(File.join(__FILE__, "../fixtures/fixtures"))
 
