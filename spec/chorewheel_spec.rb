@@ -89,7 +89,7 @@ RSpec.describe "ChoreWheel" do
 
   describe "workers_per_shift" do
     before :each do
-      @cw = ChoreWheel.new([:adit, :maggie], Timespan::WEEK, Interval::WEEKDAY, {"workers_per_shift": 2})
+      @cw = ChoreWheel.new([:adit, :maggie], Timespan::WEEK, Interval::WEEKDAY, {"workers_per_shift" => 2})
     end
     it "should assign 2 workers per shift" do
       @cw.workers.each do |arr|
