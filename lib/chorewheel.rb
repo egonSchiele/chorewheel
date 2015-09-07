@@ -105,7 +105,7 @@ class ChoreWheel
 
   Contract Timespan::MONTH, Interval::WEEKDAY => Hash
   def make_chunks timespan, interval
-    hash = make_chunks(timespan, Interval::DAYS)
+    hash = make_chunks(timespan, Interval::DAY)
     # delete sundays and saturdays
     hash.delete_if do |key, _|
       [0, 6].include?(Date.parse(key).wday)
@@ -114,9 +114,9 @@ class ChoreWheel
 
   Contract Timespan::MONTH, Interval::SPECIFIC_DAYS => Hash
   def make_chunks timespan, interval
-    hash = make_chunks(timespan, Interval::DAYS)
+    hash = make_chunks(timespan, Interval::DAY)
     hash.delete_if do |key, _|
-      !intervals.days.include?(Date.parse(key).strftime("%A").downcase.to_sym)
+      !interval.days.include?(Date.parse(key).strftime("%A").downcase)
     end
   end
 
