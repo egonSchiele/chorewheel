@@ -159,6 +159,7 @@ class ChoreWheel
   def self.from_hash hash
     cw = ChoreWheel.new(hash["people"], hash["timespan"], hash["interval"], {:workers_per_shift => hash["workers_per_shift"]})
     cw.chunks = hash["chunks"]
+    cw
   end
 
   def ==(other)

@@ -119,5 +119,20 @@ RSpec.describe "ChoreWheel" do
 
       expect(cw.to_hash).to eq(expected)
     end
+
+    it "should convert from json correctly" do
+      cw = ChoreWheel.new([:adit, :maggie], Timespan::WEEK, Interval::DAY, {:workers_per_shift => 2})
+      chunks = cw.chunks
+
+      hash = cw.to_hash
+
+      cw2 = ChoreWheel.from_hash hash
+
+      expect(cw2.people).to eq([:adit, :maggie])
+      expect(cw2.timespan).to eq(Timespan::WEEK)
+      expect(cw2.interval).to eq(Interval::DAY)
+      expect(cw2.workers_per_shift).to eq(2)
+      expect(cw2.chunks).to eq(chunks)
+    end
   end
 end
