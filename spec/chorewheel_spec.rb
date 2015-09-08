@@ -103,4 +103,21 @@ RSpec.describe "ChoreWheel" do
       check_even_distribution(@cw)
     end
   end
+
+  describe "hash" do
+    it "should convert to json correctly" do
+      cw = ChoreWheel.new([:adit, :maggie], Timespan::WEEK, Interval::DAY, {:workers_per_shift => 2})
+      chunks = cw.chunks
+
+      expected = {
+        "people" => [:adit, :maggie],
+        "timespan" => Timespan::WEEK,
+        "interval" => Interval::DAY,
+        "workers_per_shift" => 2,
+        "chunks" => chunks
+      }
+
+      expect(cw.to_hash).to eq(expected)
+    end
+  end
 end
