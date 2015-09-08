@@ -1,3 +1,5 @@
+require "date"
+
 RSpec.describe "ChoreWheel" do
   describe "chunks" do
     it "should make chunks for week/day" do
@@ -17,7 +19,7 @@ RSpec.describe "ChoreWheel" do
 
     describe "chunks for months" do
       before :each do
-        @month = Timespan::MONTH.new(Date.parse("2015-09-01"))
+        @month = Timespan::MONTH.new(Date.strptime("2015-09-01", "%Y-%m-%d"))
       end
 
       it "should make chunks for month/days" do
