@@ -134,5 +134,12 @@ RSpec.describe "ChoreWheel" do
       expect(cw2.workers_per_shift).to eq(2)
       expect(cw2.chunks).to eq(chunks)
     end
+
+    it "should convert back and forth correctly" do
+      cw = ChoreWheel.new([:adit, :maggie], Timespan::WEEK, Interval::DAY, {:workers_per_shift => 2})
+      hash = cw.to_hash
+      cw2 = ChoreWheel.from_hash hash
+      expect(cw).to eq(cw2)
+    end
   end
 end
