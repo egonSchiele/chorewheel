@@ -3,6 +3,7 @@
 require "util"
 require "interval"
 require "contracts"
+require "date"
 include Contracts
 
 class Timespan
