@@ -7,4 +7,5 @@ Gem::Specification.new do |s|
   s.email       = "bluemangroupie@gmail.com"
   s.files       = `git ls-files`.split("\n")
   s.homepage    = "http://github.com/egonSchiele/chorewheel"
+  s.add_dependency("contracts", "~> 0.11")
 end
