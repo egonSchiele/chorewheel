@@ -10,7 +10,7 @@ include Contracts
 
 class ChoreWheel
   GenericString = Or[String, Symbol]
-  attr_accessor :workers_per_shift, :people
+  attr_accessor :workers_per_shift, :people, :timespan, :interval
   def initialize people, timespan, interval, opts = {}
     unless people.is_a?(Array)
       people = [people]
@@ -26,6 +26,10 @@ class ChoreWheel
   def chunks
     @chunks ||= make_chunks @timespan, @interval
     @chunks
+  end
+
+  def chunks= c
+    @chunks = c
   end
 
   def map &blk
@@ -140,5 +144,24 @@ class ChoreWheel
       end
       workers
     end
+  end
+
+  def to_hash
+    {
+      "people" => people,
+      "timespan" => timespan,
+      "interval" => interval,
+      "workers_per_shift" => workers_per_shift,
+      "chunks" => chunks
+    }
+  end
+
+  def self.from_hash hash
+    cw = ChoreWheel.new(hash["people"], hash["timespan"], hash["interval"], {:workers_per_shift => hash["workers_per_shift"]})
+    cw.chunks = hash["chunks"]
+  end
+
+  def ==(other)
+    to_hash == other.to_hash
   end
 end
